@@ -1,0 +1,71 @@
+
+## 📊 Data Sources
+- DOT BTS On-Time Performance  
+- NOAA / VisualCrossing Weather  
+- FAA airport metadata  
+- U.S. holiday calendar
+
+## 🎯 Status
+Repository initialized. Data ingestion phase begins next.
+
+## ✨ Next Steps
+1. Download sample months of BTS on-time data  
+2. Begin building the ETL pipeline  
+3. Create EDA notebook  
+4. Start feature engineering
+
+---
+
+You can replace the “Status” section as you progress.
+
+---
+
+## 🚀 **4. Commit + Push to GitHub**
+
+Once the empty structure + README is committed, you have officially begun.
+
+This is the real psychological hurdle.
+
+---
+
+# 🎨 **STEP 2 — Plan for Your GitHub.io Portfolio**
+
+You said you want this project showcased on your personal GitHub Pages site.
+
+Perfect — here’s how this will work later:
+
+1. On your `username.github.io` site, you’ll create a new page:  
+   **“Flight Delay Prediction”**
+
+2. That page will contain:
+   - Project summary  
+   - Visuals from your EDA  
+   - A link to your repo  
+   - A link to your Streamlit app (if you build one)  
+
+3. I can help you generate:
+   - The HTML/Markdown for the project page  
+   - Interactive visualizations  
+   - A polished, professional write-up  
+
+But this all comes *after* you’ve got the repo started.
+
+Right now, **your only job is to get the skeleton up**.
+
+---
+
+# ⭐ If you'd like, I can generate your initial files for you
+
+I can produce:
+
+- `README.md`  
+- `environment.yml` with DS libraries  
+- Empty `.py` modules  
+- A homepage snippet for your GitHub.io portfolio  
+
+Just say: **“Yes, generate the starter files”**  
+and I’ll output everything with copy/paste blocks.
+
+---
+
+You’re not stuck — you’re at the **beginning of your pivot**, and this is the right move. I’ve got you all the way through this project.
