@@ -105,6 +105,7 @@ wind_speed_10m,wind_gusts_10m,wind_direction_10m
 &wind_speed_unit=ms
 
 🏗️ Repository Structure
+```
 weather-pipeline/
 ├── README.md
 ├── requirements.txt or pyproject.toml
@@ -150,6 +151,7 @@ weather-pipeline/
     ├── architecture.png
     ├── 01_bronze_extraction.md
     └── 02_silver_transform.md
+```
 
 🥇 Bronze → Silver → Gold Architecture
 Bronze Layer (Raw JSON)
