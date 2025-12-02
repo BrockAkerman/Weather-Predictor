@@ -26,7 +26,7 @@ Build a pipeline that:
 - Generates features + labels in Gold
 
 #### 2. Machine Learning Tasks
-Primary Task: Rain Classification (Binary)
+**Primary Task: Rain Classification (Binary)**
 
 Predict:
 
@@ -38,7 +38,7 @@ Highlights:
 - Easy to evaluate and visualize
 - Shows classification metrics (AUC, F1, PR curves)
 
-Secondary Task: Temperature Forecasting
+**Secondary Task: Temperature Forecasting**
 Forecast temperature for:
 - +1 hour
 - +3 hours
@@ -131,157 +131,100 @@ weather-pipeline/
 
 ### 🥇 Bronze → Silver → Gold Architecture
 #### Bronze Layer (Raw JSON)
-
-Stores immutable snapshots (raw_YYYYMMDD_HHMMSS.json)
-
-Data fetched from Open-Meteo via scheduled pipeline
-
-No cleaning or transformations
-
-Ensures full lineage and reproducibility
-
-Detailed documentation: docs/01_bronze_extraction.md
+- Stores immutable snapshots (`raw_YYYYMMDD_HHMMSS.json`)
+- Data fetched from Open-Meteo via scheduled pipeline
+- No cleaning or transformations
+- Ensures full lineage and reproducibility
+Detailed documentation: ```docs/01_bronze_extraction.md```
 
 #### Silver Layer (Clean & Normalized)
-
-Spark-enforced schema
-
-Normalized timestamps
-
-Missing-value handling
-
-Flattened hourly/daily objects
-
-Suitable for analytics & modeling
+- Spark-enforced schema
+- Normalized timestamps
+- Missing-value handling
+- Flattened hourly/daily objects
+- Suitable for analytics & modeling
 
 #### Gold Layer (Feature + Label Store)
-
-Rolling windows (lag features, moving averages)
-
-Target creation (rain_next_hour)
-
-Train/validation splits
-
-Ready for ML pipelines
+- Rolling windows (lag features, moving averages)
+- Target creation (rain_next_hour)
+- Train/validation splits
+- Ready for ML pipelines
 
 ### 🧠 Machine Learning Pipeline
 Classification (Rain Prediction)
-
-Binary label: `rain_next_hour`
-
-Algorithms: Logistic Regression, Gradient Boosting, Random Forest
-
-Evaluation: AUC, F1, Recall, Precision, PR curves
-
-Logged in MLflow
+- Binary label: `rain_next_hour`
+- Algorithms: Logistic Regression, Gradient Boosting, Random Forest
+- Evaluation: AUC, F1, Recall, Precision, PR curves
+- Logged in MLflow
 
 Temperature Forecasting
-
-Regression: Predict temp in +1/+3/+6/+24 hours
-
-Time-series cross-validation
-
-Multi-step pipeline
-
-Feature importance & residual plots
+- Regression: Predict temp in +1/+3/+6/+24 hours
+- Time-series cross-validation
+- Multi-step pipeline
+- Feature importance & residual plots
 
 ### ⚙️ Orchestration (Prefect)
-
-Tasks for each ETL phase
-
-Scheduled hourly ingestion
-
-Automatic retries and logging
-
-Backfill capability
+- Tasks for each ETL phase
+- Scheduled hourly ingestion
+- Automatic retries and logging
+- Backfill capability
 
 ### 🚀 Deployment
 FastAPI
-
-/predict_rain endpoint (JSON in → prediction out)
-
-/predict_temp endpoint
+- `/predict_rain` endpoint (JSON in → prediction out)
+- `/predict_temp` endpoint
 
 Docker
-
-Spark, API, dashboard, and Prefect all containerized
+- Spark, API, dashboard, and Prefect all containerized
 
 CI/CD
-
-Linting
-
-Tests
-
-Build & deployment pipeline
+- Linting
+- Tests
+- Build & deployment pipeline
 
 ### 📊 Dashboard (Streamlit)
-
-Current and historical weather trends
-
-Rain prediction probabilities
-
-Temperature forecast visualizations
-
-Pipeline health and data quality metrics
+- Current and historical weather trends
+- Rain prediction probabilities
+- Temperature forecast visualizations
+- Pipeline health and data quality metrics
 
 ### 🧪 Testing
 
 Includes:
-
-Unit tests for ETL transforms
-
-Schema validation tests
-
-End-to-end integration tests
-
-Model tests
+- Unit tests for ETL transforms
+- Schema validation tests
+- End-to-end integration tests
+- Model tests
 
 ### ✅ Engineering Best Practices Checklist
 Reproducibility
-
-Version-pinned dependencies
-
-Deterministic random seeds
-
-Dockerized runtime environment
+- Version-pinned dependencies
+- Deterministic random seeds
+- Dockerized runtime environment
 
 Data Lineage
-
-Store fetch_timestamp and source_url for every Bronze file
-
-Persist raw data immutably
+- Store `fetch_timestamp` and `source_url` for every Bronze file
+- Persist raw data immutably
 
 Schema Evolution
-
-Use explicit Spark schemas
-
-Store schema versions in metadata
+- Use explicit Spark schemas
+- Store schema versions in metadata
 
 Observability
-
-Logged ETL runtimes
-
-Row counts tracked per stage
-
-Data quality checks at Silver
-
-MLflow for model metrics
+- Logged ETL runtimes
+- Row counts tracked per stage
+- Data quality checks at Silver
+- MLflow for model metrics
 
 Reliability
-
-Automated Prefect scheduler
-
-Retries + alerts on failure
-
-Notebook used only for one-time bootstrap, not production ETL
+- Automated Prefect scheduler
+- Retries + alerts on failure
+- Notebook used only for one-time bootstrap, not production ETL
 
 Security (if deployed)
-
-Authentication for API endpoints
-
-MLflow not publicly exposed
-
-No credentials stored in code
+- Authentication for API endpoints
+- MLflow not publicly exposed
+- No credentials stored in code
 
 ### 🎉 Project Status
 
