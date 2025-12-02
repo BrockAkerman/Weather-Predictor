@@ -13,67 +13,49 @@ This project demonstrates a full production-grade data engineering + data scienc
 - Model tracking with MLflow
 - API deployment with FastAPI
 - A Streamlit dashboard for real-time visualization
+
 This project is designed as a portfolio-quality, end-to-end system suitable for demonstrating engineering and modeling skills.
 
 ### 🎯 Objectives
 #### 1. Real-Time Weather Pipeline (ETL)
 
 Build a pipeline that:
-
-Fetches hourly JSON weather data from Open-Meteo
-
-Stores immutable raw snapshots in Bronze
-
-Normalizes and cleans data in Silver
-
-Generates features + labels in Gold
+- Fetches hourly JSON weather data from Open-Meteo
+- Stores immutable raw snapshots in Bronze
+- Normalizes and cleans data in Silver
+- Generates features + labels in Gold
 
 #### 2. Machine Learning Tasks
 Primary Task: Rain Classification (Binary)
 
 Predict:
 
-Will it rain in the next hour? (yes/no)
+```Will it rain in the next hour? (yes/no)```
 
 Highlights:
-
-Perfect for showcasing feature engineering
-
-Clear business utility
-
-Easy to evaluate and visualize
-
-Shows classification metrics (AUC, F1, PR curves)
+- Perfect for showcasing feature engineering
+- Clear business utility
+- Easy to evaluate and visualize
+- Shows classification metrics (AUC, F1, PR curves)
 
 Secondary Task: Temperature Forecasting
-
 Forecast temperature for:
-
-+1 hour
-
-+3 hours
-
-+6 hours
-
-+24 hours
+- +1 hour
+- +3 hours
+- +6 hours
+- +24 hours
 
 Demonstrates:
-
-Multi-step forecasting
-
-Time-series CV
-
-Regression metrics (RMSE, MAE)
+- Multi-step forecasting
+- Time-series CV
+- Regression metrics (RMSE, MAE)
 
 #### 3. Deployment
 
 Expose predictions via:
-
-FastAPI REST endpoint
-
-Optional containerized deployment (Docker)
-
-Prefect orchestration for scheduling
+- FastAPI REST endpoint
+- Optional containerized deployment (Docker)
+- Prefect orchestration for scheduling
 
 ### 🌐 Data Source
 
