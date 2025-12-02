@@ -88,12 +88,12 @@ Prefect orchestration for scheduling
 Open-Meteo Hourly JSON API (no API key required)
 
 URL template generated using:
-
+```
 https://open-meteo.com/en/docs
-
+```
 
 Example endpoint (Jackson County, GA):
-
+```
 https://api.open-meteo.com/v1/forecast?
 latitude=34.172&longitude=-83.5588
 &hourly=temperature_2m,relative_humidity_2m,dew_point_2m,
@@ -103,8 +103,10 @@ wind_speed_10m,wind_gusts_10m,wind_direction_10m
 &timezone=America/New_York
 &past_days=1
 &wind_speed_unit=ms
+```
 
 🏗️ Repository Structure
+
 ```
 weather-pipeline/
 ├── README.md
@@ -191,7 +193,7 @@ Ready for ML pipelines
 🧠 Machine Learning Pipeline
 Classification (Rain Prediction)
 
-Binary label: rain_next_hour
+Binary label: `rain_next_hour`
 
 Algorithms: Logistic Regression, Gradient Boosting, Random Forest
 
