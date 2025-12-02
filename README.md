@@ -132,26 +132,54 @@ weather-pipeline/
     └── 02_silver_transform.md
 ```
 
-### 🥇 Bronze → Silver → Gold Architecture
-#### Bronze Layer (Raw JSON)
+### 🏆 Architecture
+#### 🥉 Bronze Layer (Raw JSON)
 - Stores immutable snapshots (`raw_YYYYMMDD_HHMMSS.json`)
 - Data fetched from Open-Meteo via scheduled pipeline
 - No cleaning or transformations
 - Ensures full lineage and reproducibility
 Detailed documentation: ```docs/01_bronze_extraction.md```
 
-#### Silver Layer (Clean & Normalized)
+#### 🥈 Silver Layer (Clean & Normalized)
 - Spark-enforced schema
 - Normalized timestamps
 - Missing-value handling
 - Flattened hourly/daily objects
 - Suitable for analytics & modeling
 
-#### Gold Layer (Feature + Label Store)
+#### 🥇 Gold Layer (Feature + Label Store)
 - Rolling windows (lag features, moving averages)
 - Target creation (rain_next_hour)
 - Train/validation splits
 - Ready for ML pipelines
+
+```
+┌─────────────────────────┐
+│       Open-Meteo API    │
+│  (Hourly + Daily JSON)  │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│        Bronze Layer     │
+│ Raw JSON snapshots      │
+│ Timestamped ingestion   │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│        Silver Layer     │
+│ Normalize + clean JSON  │
+│ Flattened feature sets  │
+└─────────────┬───────────┘
+              │
+              ▼
+┌─────────────────────────┐
+│         Gold Layer      │
+│ Analytics-ready tables  │
+│ Forecast & summary KPIs │
+└─────────────────────────┘
+```
 
 ### 🧠 Machine Learning Pipeline
 Classification (Rain Prediction)
@@ -240,6 +268,6 @@ Security (if deployed)
 ⬜ Dashboard<br>
 
 
-### Reference:
+### 🔗 Reference:
 ```https://www.jacksoncountygov.com/149/Airport```<br>
 ```open-meteo.com```<br>
