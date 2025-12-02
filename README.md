@@ -66,7 +66,7 @@ URL template generated using:
 https://open-meteo.com/en/docs
 ```
 
-Example endpoint (Jackson County, GA):
+Endpoint (Jackson County Airport, GA):
 ```
 https://api.open-meteo.com/v1/forecast?
 latitude=34.172&longitude=-83.5588
@@ -78,6 +78,9 @@ wind_speed_10m,wind_gusts_10m,wind_direction_10m
 &past_days=1
 &wind_speed_unit=ms
 ```
+
+![KJCA Map](docs/Maps.PNG)
+
 
 ### 🏗️ Repository Structure
 
