@@ -1,135 +1,316 @@
-# Weather_Prediction_Pipeline
+🌦️ Weather Prediction Pipeline
 
-### Project Design, Architecture, and Outcomes
+Real-Time Weather ETL + Feature Engineering + Forecasting + Classification
+with PySpark, MLflow, FastAPI, Prefect, and Streamlit
 
-Design:  
-  
-(1) Build a real-time pipeline that ingests hourly weather JSON from Open-Meteo for chosen locations, stores raw JSON (bronze), cleans and normalizes (silver), produces aggregated features and labels (gold),  
-(2) trains and serves ML models to: Forecast temperature for next 24 hours (regression),  
-(3) and/or Classify whether it will rain in the next hour (binary classification).  
+📌 Project Overview
 
-Objectives: 
-  
-- Classification (primary portfolio highlight): Predict rain_next_hour (binary) using past N hours features and current conditions. This is intuitive, explainable, and suitable to show both feature engineering and classification metrics.  
-- Forecasting (secondary): Multi-output regression forecasting of temperature over next 1/3/6/24 hours. Demonstrate time-series features, cross-validation, and probabilistic metrics.  
+This project demonstrates a full production-grade data engineering + data science pipeline built around the Open-Meteo Weather API. It showcases:
 
-Data Source:  Open-Meteo hourly JSON API  
+Real-time JSON ingestion
 
-### Repository Structure:  
-  
-weather-pipeline/  
-├── README.md  
-├── pyproject.toml OR requirements.txt  
-├── docker/  
-│   ├── Dockerfile  
-│   └── docker-compose.yml  
-├── .github/  
-│   └── workflows/  
-│       └── ci.yml  
-├── src/  
-│   ├── etl/  
-│   │   ├── fetch_open_meteo.py          # fetcher that writes to bronze  
-│   │   ├── bronze_to_silver.py          # batch/stream job to build silver  
-│   │   ├── silver_to_gold.py            # feature engineering, labels  
-│   │   └── schemas.py                   # PySpark schemas  
-│   ├── ml/  
-│   │   ├── train_classifier.py          # train classification (PySpark ML)  
-│   │   ├── train_regressor.py           # train forecasting model  
-│   │   ├── predict.py                   # helper to load model and predict  
-│   │   └── mlflow_utils.py  
-│   ├── api/  
-│   │   └── app.py                       # FastAPI serving endpoint  
-│   ├── ui/  
-│   │   └── streamlit_app.py  
-│   ├── orchestrator/  
-│   │   └── prefect_flow.py  
-│   └── utils/  
-│       ├── file_utils.py  
-│       ├── dq_checks.py  
-│       └── logging_config.py  
-├── notebooks/  
-│   ├── exploration.ipynb  
-│   └── modeling_demo.ipynb  
-├── data/  
-│   ├── bronze/  
-│   ├── silver/  
-│   └── gold/  
-├── tests/  
-│   ├── test_etl.py  
-│   └── test_ml.py  
-└── docs/  
-    └── architecture.png  
+A clean Bronze → Silver → Gold data lakehouse architecture
 
+Automated PySpark ETL
 
-### Extract/Transform/Load Pipeline in PySpark
+Time-series forecasting & rain/no-rain classification
 
-Phase 1 — Bronze Layer (Extract)
+Model tracking with MLflow
 
-The goal of the Bronze layer in this pipeline is to capture immutable, raw JSON data from the Open-Meteo Forecast API. This forms the foundation for all downstream processing and ensures reproducibility of every step in the pipeline.
+API deployment with FastAPI
 
-API Source
+A Streamlit dashboard for real-time visualization
 
-I use the Open-Meteo JSON REST API because it provides:
+This project is designed as a portfolio-quality, end-to-end system suitable for demonstrating engineering and modeling skills.
 
-High-frequency, continuously updating weather forecasts
+🎯 Objectives
+1. Real-Time Weather Pipeline (ETL)
 
-Well-structured JSON responses
+Build a pipeline that:
 
-A predictable URL pattern suitable for scheduled ingestion
+Fetches hourly JSON weather data from Open-Meteo
 
-The API endpoint includes hourly variables (temperature, humidity, precipitation, cloud cover, wind metrics) and daily variables (UV index, solar radiation). The latitude, longitude, and timezone parameters configure the request to target my local area.
+Stores immutable raw snapshots in Bronze
 
-Bronze Zone Design
+Normalizes and cleans data in Silver
 
-Inside data/bronze/, I maintain a directory that stores only raw, unmodified API responses.
-Each ingestion event generates a new file named using the pattern:
+Generates features + labels in Gold
 
-raw_YYYYMMDD_HHMMSS.json
+2. Machine Learning Tasks
+Primary Task: Rain Classification (Binary)
 
+Predict:
 
-These timestamped snapshots allow me to reconstruct the state of the source system at any point in time.
+Will it rain in the next hour? (yes/no)
 
-Initial Ingestion Notebook
+Highlights:
 
-To bootstrap the pipeline, I created a notebook:
+Perfect for showcasing feature engineering
 
-notebooks/01_fetch_initial_data.ipynb
+Clear business utility
+
+Easy to evaluate and visualize
+
+Shows classification metrics (AUC, F1, PR curves)
+
+Secondary Task: Temperature Forecasting
+
+Forecast temperature for:
+
++1 hour
+
++3 hours
+
++6 hours
+
++24 hours
+
+Demonstrates:
+
+Multi-step forecasting
+
+Time-series CV
+
+Regression metrics (RMSE, MAE)
+
+3. Deployment
+
+Expose predictions via:
+
+FastAPI REST endpoint
+
+Optional containerized deployment (Docker)
+
+Prefect orchestration for scheduling
+
+🌐 Data Source
+
+Open-Meteo Hourly JSON API (no API key required)
+
+URL template generated using:
+
+https://open-meteo.com/en/docs
 
 
-This notebook performs the first API pull and saves the response as a raw JSON file in the Bronze zone. The notebook also includes safeguards to prevent accidental overwrites, ensuring the integrity of the raw data.
+Example endpoint (Jackson County, GA):
 
-In future steps, a scheduled script or orchestrator will replace this manual notebook process, but the notebook itself documents the initial workflow and demonstrates the extraction logic.
+https://api.open-meteo.com/v1/forecast?
+latitude=34.172&longitude=-83.5588
+&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,
+precipitation_probability,precipitation,cloud_cover,surface_pressure,
+wind_speed_10m,wind_gusts_10m,wind_direction_10m
+&daily=uv_index_max,shortwave_radiation_sum
+&timezone=America/New_York
+&past_days=1
+&wind_speed_unit=ms
 
-Phase 2 — Silver (Transform)
+🏗️ Repository Structure
+weather-pipeline/
+├── README.md
+├── requirements.txt or pyproject.toml
+├── docker/
+│   ├── Dockerfile
+│   └── docker-compose.yml
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── src/
+│   ├── etl/
+│   │   ├── fetch_open_meteo.py          # writes raw JSON to Bronze
+│   │   ├── bronze_to_silver.py          # cleaning & normalization
+│   │   ├── silver_to_gold.py            # feature engineering + labels
+│   │   └── schemas.py                   # Spark schemas
+│   ├── ml/
+│   │   ├── train_classifier.py
+│   │   ├── train_regressor.py
+│   │   ├── predict.py
+│   │   └── mlflow_utils.py
+│   ├── api/
+│   │   └── app.py                       # FastAPI prediction server
+│   ├── ui/
+│   │   └── streamlit_app.py
+│   ├── orchestrator/
+│   │   └── prefect_flow.py
+│   └── utils/
+│       ├── file_utils.py
+│       ├── dq_checks.py
+│       └── logging_config.py
+├── notebooks/
+│   ├── 01_fetch_initial_data.ipynb      # one-time initialization
+│   ├── exploration.ipynb
+│   └── modeling_demo.ipynb
+├── data/
+│   ├── bronze/
+│   ├── silver/
+│   └── gold/
+├── tests/
+│   ├── test_etl.py
+│   └── test_ml.py
+└── docs/
+    ├── architecture.png
+    ├── 01_bronze_extraction.md
+    └── 02_silver_transform.md
 
-(To be completed in the next stage.)
+🥇 Bronze → Silver → Gold Architecture
+Bronze Layer (Raw JSON)
 
-This phase will clean, normalize, and schema-enforce the raw JSON into an analytics-ready Parquet dataset.
+Stores immutable snapshots (raw_YYYYMMDD_HHMMSS.json)
 
-Phase 3 — Gold (Load)
+Data fetched from Open-Meteo via scheduled pipeline
 
-(To be completed later.)
+No cleaning or transformations
 
-Aggregated, enriched, and query-optimized datasets will be produced for dashboards, machine learning features, and end-user consumption.
+Ensures full lineage and reproducibility
 
+Detailed documentation: docs/01_bronze_extraction.md
 
-### Machine Learning Pipeline
+Silver Layer (Clean & Normalized)
 
-### Orchestration
+Spark-enforced schema
 
-### Deployment
-- Dockerfile  
+Normalized timestamps
 
-### Dashboard  
-- Streamlit  
+Missing-value handling
 
-### Testing/Training  
+Flattened hourly/daily objects
 
-### BEST PRACTICES CHECKLIST  
+Suitable for analytics & modeling
 
--- Reproducibility: pin package versions, include requirements.txt and Dockerfile, and seed your randomness in model training.  
--- Data lineage: store source_path and fetch_ts in silver so you can trace back any observation.  
--- Schema evolution: include schema_version metadata and use Parquet/Delta Lake in production to support evolution safely.  
--- Observability: log run times, row counts, and DQ violations to MLflow or another observability tool. Add Prometheus metrics for the API and Prefect.  
--- Tests: unit tests for each transform function + integration test for full flow using small sample JSON files.  
--- Security: if deploying publicly, secure endpoints with authentication, and don't expose your MLflow server without auth.  
+Gold Layer (Feature + Label Store)
+
+Rolling windows (lag features, moving averages)
+
+Target creation (rain_next_hour)
+
+Train/validation splits
+
+Ready for ML pipelines
+
+🧠 Machine Learning Pipeline
+Classification (Rain Prediction)
+
+Binary label: rain_next_hour
+
+Algorithms: Logistic Regression, Gradient Boosting, Random Forest
+
+Evaluation: AUC, F1, Recall, Precision, PR curves
+
+Logged in MLflow
+
+Temperature Forecasting
+
+Regression: Predict temp in +1/+3/+6/+24 hours
+
+Time-series cross-validation
+
+Multi-step pipeline
+
+Feature importance & residual plots
+
+⚙️ Orchestration (Prefect)
+
+Tasks for each ETL phase
+
+Scheduled hourly ingestion
+
+Automatic retries and logging
+
+Backfill capability
+
+🚀 Deployment
+FastAPI
+
+/predict_rain endpoint (JSON in → prediction out)
+
+/predict_temp endpoint
+
+Docker
+
+Spark, API, dashboard, and Prefect all containerized
+
+CI/CD
+
+Linting
+
+Tests
+
+Build & deployment pipeline
+
+📊 Dashboard (Streamlit)
+
+Current and historical weather trends
+
+Rain prediction probabilities
+
+Temperature forecast visualizations
+
+Pipeline health and data quality metrics
+
+🧪 Testing
+
+Includes:
+
+Unit tests for ETL transforms
+
+Schema validation tests
+
+End-to-end integration tests
+
+Model tests
+
+✅ Engineering Best Practices Checklist
+Reproducibility
+
+Version-pinned dependencies
+
+Deterministic random seeds
+
+Dockerized runtime environment
+
+Data Lineage
+
+Store fetch_timestamp and source_url for every Bronze file
+
+Persist raw data immutably
+
+Schema Evolution
+
+Use explicit Spark schemas
+
+Store schema versions in metadata
+
+Observability
+
+Logged ETL runtimes
+
+Row counts tracked per stage
+
+Data quality checks at Silver
+
+MLflow for model metrics
+
+Reliability
+
+Automated Prefect scheduler
+
+Retries + alerts on failure
+
+Notebook used only for one-time bootstrap, not production ETL
+
+Security (if deployed)
+
+Authentication for API endpoints
+
+MLflow not publicly exposed
+
+No credentials stored in code
+
+🎉 Project Status
+
+✔ Bronze ingestion complete
+⬜ Silver cleaning (next step)
+⬜ Gold feature engineering
+⬜ ML pipeline
+⬜ Orchestration
+⬜ Deployment
+⬜ Dashboard
