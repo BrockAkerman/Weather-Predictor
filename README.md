@@ -241,5 +241,5 @@ Security (if deployed)
 
 
 ### Reference:
-```https://www.jacksoncountygov.com/149/Airport```
-```open-meteo.com```
+```https://www.jacksoncountygov.com/149/Airport```<br>
+```open-meteo.com```<br>
