@@ -231,13 +231,13 @@ Security (if deployed)
 
 ### 🎉 Project Status
 
-✔ Bronze ingestion complete
-⬜ Silver cleaning (next step)
-⬜ Gold feature engineering
-⬜ ML pipeline
-⬜ Orchestration
-⬜ Deployment
-⬜ Dashboard
+✔ Bronze ingestion complete<br>
+⬜ Silver cleaning (next step)<br>
+⬜ Gold feature engineering<br>
+⬜ ML pipeline<br>
+⬜ Orchestration<br>
+⬜ Deployment<br>
+⬜ Dashboard<br>
 
 
 ### Reference:
