@@ -6,21 +6,13 @@ with PySpark, MLflow, FastAPI, Prefect, and Streamlit
 ### 📌 Project Overview
 
 This project demonstrates a full production-grade data engineering + data science pipeline built around the Open-Meteo Weather API. It showcases:
-
-Real-time JSON ingestion
-
-A clean Bronze → Silver → Gold data lakehouse architecture
-
-Automated PySpark ETL
-
-Time-series forecasting & rain/no-rain classification
-
-Model tracking with MLflow
-
-API deployment with FastAPI
-
-A Streamlit dashboard for real-time visualization
-
+- Real-time JSON ingestion
+- A clean Bronze → Silver → Gold data lakehouse architecture
+- Automated PySpark ETL
+- Time-series forecasting & rain/no-rain classification
+- Model tracking with MLflow
+- API deployment with FastAPI
+- A Streamlit dashboard for real-time visualization
 This project is designed as a portfolio-quality, end-to-end system suitable for demonstrating engineering and modeling skills.
 
 ### 🎯 Objectives
