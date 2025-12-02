@@ -1,9 +1,9 @@
-🌦️ Weather Prediction Pipeline
+# 🌦️ Weather Prediction Pipeline
 
 Real-Time Weather ETL + Feature Engineering + Forecasting + Classification
 with PySpark, MLflow, FastAPI, Prefect, and Streamlit
 
-📌 Project Overview
+### 📌 Project Overview
 
 This project demonstrates a full production-grade data engineering + data science pipeline built around the Open-Meteo Weather API. It showcases:
 
@@ -23,8 +23,8 @@ A Streamlit dashboard for real-time visualization
 
 This project is designed as a portfolio-quality, end-to-end system suitable for demonstrating engineering and modeling skills.
 
-🎯 Objectives
-1. Real-Time Weather Pipeline (ETL)
+### 🎯 Objectives
+#### 1. Real-Time Weather Pipeline (ETL)
 
 Build a pipeline that:
 
@@ -36,7 +36,7 @@ Normalizes and cleans data in Silver
 
 Generates features + labels in Gold
 
-2. Machine Learning Tasks
+#### 2. Machine Learning Tasks
 Primary Task: Rain Classification (Binary)
 
 Predict:
@@ -73,7 +73,7 @@ Time-series CV
 
 Regression metrics (RMSE, MAE)
 
-3. Deployment
+#### 3. Deployment
 
 Expose predictions via:
 
@@ -83,7 +83,7 @@ Optional containerized deployment (Docker)
 
 Prefect orchestration for scheduling
 
-🌐 Data Source
+### 🌐 Data Source
 
 Open-Meteo Hourly JSON API (no API key required)
 
@@ -105,7 +105,7 @@ wind_speed_10m,wind_gusts_10m,wind_direction_10m
 &wind_speed_unit=ms
 ```
 
-🏗️ Repository Structure
+### 🏗️ Repository Structure
 
 ```
 weather-pipeline/
@@ -155,8 +155,8 @@ weather-pipeline/
     └── 02_silver_transform.md
 ```
 
-🥇 Bronze → Silver → Gold Architecture
-Bronze Layer (Raw JSON)
+### 🥇 Bronze → Silver → Gold Architecture
+#### Bronze Layer (Raw JSON)
 
 Stores immutable snapshots (raw_YYYYMMDD_HHMMSS.json)
 
@@ -168,7 +168,7 @@ Ensures full lineage and reproducibility
 
 Detailed documentation: docs/01_bronze_extraction.md
 
-Silver Layer (Clean & Normalized)
+#### Silver Layer (Clean & Normalized)
 
 Spark-enforced schema
 
@@ -180,7 +180,7 @@ Flattened hourly/daily objects
 
 Suitable for analytics & modeling
 
-Gold Layer (Feature + Label Store)
+#### Gold Layer (Feature + Label Store)
 
 Rolling windows (lag features, moving averages)
 
@@ -190,7 +190,7 @@ Train/validation splits
 
 Ready for ML pipelines
 
-🧠 Machine Learning Pipeline
+### 🧠 Machine Learning Pipeline
 Classification (Rain Prediction)
 
 Binary label: `rain_next_hour`
@@ -211,7 +211,7 @@ Multi-step pipeline
 
 Feature importance & residual plots
 
-⚙️ Orchestration (Prefect)
+### ⚙️ Orchestration (Prefect)
 
 Tasks for each ETL phase
 
@@ -221,7 +221,7 @@ Automatic retries and logging
 
 Backfill capability
 
-🚀 Deployment
+### 🚀 Deployment
 FastAPI
 
 /predict_rain endpoint (JSON in → prediction out)
@@ -240,7 +240,7 @@ Tests
 
 Build & deployment pipeline
 
-📊 Dashboard (Streamlit)
+### 📊 Dashboard (Streamlit)
 
 Current and historical weather trends
 
@@ -250,7 +250,7 @@ Temperature forecast visualizations
 
 Pipeline health and data quality metrics
 
-🧪 Testing
+### 🧪 Testing
 
 Includes:
 
@@ -262,7 +262,7 @@ End-to-end integration tests
 
 Model tests
 
-✅ Engineering Best Practices Checklist
+### ✅ Engineering Best Practices Checklist
 Reproducibility
 
 Version-pinned dependencies
@@ -309,7 +309,7 @@ MLflow not publicly exposed
 
 No credentials stored in code
 
-🎉 Project Status
+### 🎉 Project Status
 
 ✔ Bronze ingestion complete
 ⬜ Silver cleaning (next step)
