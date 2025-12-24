@@ -46,15 +46,17 @@ def make_daily_aggregates(df):
 
 
 # -------------------------------------------------
-# Entrypoint
+# Entrypoint (fixed)
 # -------------------------------------------------
 def transform_silver_to_gold(df_silver):
 
     print("\nRAW time samples BEFORE conversion:")
     print(df_silver["time"].head(10))
 
+    # Work on a copy
     df_silver = df_silver.copy()
 
+    # Convert timestamp to UTC timezone-aware
     df_silver["time"] = pd.to_datetime(
         df_silver["time"],
         utc=True,
@@ -64,6 +66,11 @@ def transform_silver_to_gold(df_silver):
     print("\nParsed time samples AFTER conversion:")
     print(df_silver["time"].head(10))
 
+    # Convert to timezone-naive microsecond precision for Spark compatibility
+    df_silver["time"] = df_silver["time"].dt.tz_localize(None)
+    df_silver["time"] = df_silver["time"].astype("datetime64[us]")
+
+    # ---- YOUR INDENTATION PROBLEM WAS *HERE* ----
     hourly = make_hourly_features(df_silver)
     daily = make_daily_aggregates(df_silver)
 
